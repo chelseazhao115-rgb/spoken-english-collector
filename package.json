@@ -1,0 +1,29 @@
+{
+  "name": "spoken-english-collector",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prepare:ocr": "node scripts/copy-ocr-assets.mjs",
+    "build": "npm run prepare:ocr && tsc -b && vite build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "^1.0.0",
+    "@vitejs/plugin-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tesseract.js": "^6.0.1",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@types/chrome": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "fake-indexeddb": "^6.2.5",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}

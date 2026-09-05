@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Spoken English Collector",
+  "version": "1.0.0",
+  "description": "Capture, analyze, organize, and export useful spoken English expressions.",
+  "permissions": ["activeTab", "sidePanel", "scripting", "storage"],
+  "host_permissions": ["<all_urls>", "https://api.deepseek.com/*"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Open Spoken English Collector"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,1298 @@
+# AI Spoken English Collector — V1 产品与开发规格
+
+## 1. 产品定位
+
+### 暂定名称
+
+**Spoken English Collector**
+
+中文暂定：
+
+**生活英语表达采集器**
+
+### 一句话介绍
+
+帮助英语学习者在浏览 YouTube、视频、文章等真实英文内容时，通过文字选取或区域截图快速采集值得学习的生活化表达，并自动完成识别、释义、场景分类、整理与导出。
+
+### 核心用户问题
+
+用户在真实英文内容中经常遇到：
+
+* 不认识的词；
+* 很自然但自己不会说的表达；
+* 地道搭配；
+* 口语句型；
+* 很适合以后使用的表达。
+
+但传统积累流程过长：
+
+发现表达
+→ 暂停内容
+→ 截图 / 复制
+→ 打开词典
+→ 查中文
+→ 查音标
+→ 记录原句
+→ 写使用场景
+→ 保存到 Notion / Excel / Obsidian
+→ 后续手动整理。
+
+大量用户因此选择：
+
+> “算了，以后再记。”
+
+本产品希望把这一过程缩短为：
+
+**发现表达 → 框选 → AI 自动整理 → 用户确认 → 保存**
+
+---
+
+# 2. V1 核心价值
+
+产品不定位为：
+
+* OCR 工具；
+* 截图工具；
+* 普通电子词典；
+* 背单词软件。
+
+而定位为：
+
+> **真实英语输入中的个人口语表达采集与整理工具。**
+
+核心价值包括：
+
+### 1）降低采集摩擦
+
+用户不需要在多个软件之间切换。
+
+### 2）识别“值得学的表达”
+
+AI 不只是识别单词，而是判断：
+
+* idiom；
+* collocation；
+* phrasal verb；
+* conversational phrase；
+* sentence pattern；
+* native-like expression。
+
+### 3）自动结构化
+
+自动补充：
+
+* 中文释义；
+* 音标；
+* 上下文含义；
+* 使用场景；
+* 同义 / 相似表达；
+* 标签；
+* 来源。
+
+### 4）减少后续整理工作
+
+自动按照：
+
+* 日期；
+* 使用场景；
+* 表达含义；
+
+进行组织。
+
+### 5）让用户拥有自己的数据
+
+支持导出为排版良好的独立 HTML 文件。
+
+---
+
+# 3. 核心用户
+
+V1 核心用户：
+
+有一定英语基础、希望提升真实生活口语表达的英语学习者。
+
+典型特征：
+
+* 会看 YouTube / Vlog / Interview / Podcast Video；
+* 已经不满足于单纯背单词；
+* 经常发现“这个表达很好，但我不会说”；
+* 有积累表达的习惯或意愿；
+* 觉得 Notion / Excel 手动整理过于麻烦；
+* 更关注地道表达和真实使用场景。
+
+V1 不优先服务：
+
+* 零基础学习者；
+* 单纯准备四六级词汇的人；
+* 只需要英汉词典的人；
+* 专业论文词汇学习；
+* 大规模字幕翻译。
+
+---
+
+# 4. V1 核心使用场景
+
+## 场景 A：网页文字
+
+用户在网页中看到一句：
+
+> I'm still on the fence about it.
+
+用户：
+
+选中文字
+→ 右键或点击插件入口
+→ Analyze Expression
+→ AI 自动分析
+→ 用户确认
+→ 保存。
+
+---
+
+## 场景 B：视频字幕 / 图片文字
+
+用户在 YouTube 等网站看到字幕：
+
+> I wouldn't read too much into it.
+
+用户：
+
+快捷键启动 Capture
+→ 页面出现区域选择框
+→ 框选字幕
+→ OCR
+→ 显示识别结果
+→ 用户可修改
+→ Analyze
+→ AI 结构化分析
+→ 用户确认
+→ Save。
+
+---
+
+# 5. V1 核心流程
+
+```text
+Real English Content
+        ↓
+Discover Useful Expression
+        ↓
+Select Text / Region Capture
+        ↓
+OCR if necessary
+        ↓
+User Confirms Text
+        ↓
+AI Expression Analysis
+        ↓
+Expression Preview
+        ↓
+User Edit / Save
+        ↓
+Personal Expression Library
+        ↓
+Filter / Search / Organize
+        ↓
+HTML Export
+```
+
+---
+
+# 6. V1 功能范围
+
+V1 只完成以下六个核心能力。
+
+## Feature 1 — Capture
+
+支持：
+
+### A. Select Text
+
+如果网页文字可以复制：
+
+用户选择文字后直接发送到插件。
+
+### B. Region Capture
+
+用户点击：
+
+**Capture Expression**
+
+页面：
+
+* 出现半透明遮罩；
+* 鼠标拖动选择区域；
+* 生成选区截图；
+* 自动发送 OCR。
+
+必须支持：
+
+* ESC 取消；
+* 重新截图；
+* DPI / 页面缩放适配；
+* 截图时隐藏选择框 UI。
+
+---
+
+# 7. Feature 2 — OCR
+
+输入：
+
+区域截图。
+
+输出：
+
+识别后的英文文本。
+
+V1 优先：
+
+**Tesseract.js，本地 OCR。**
+
+OCR 之后必须经过用户确认，不允许直接提交 AI。
+
+界面：
+
+```text
+Detected Text
+
+I wouldn't read too much into it.
+
+[Edit]
+
+[Analyze]
+```
+
+如果 OCR 错误：
+
+用户可以直接修改文本。
+
+V1 不追求极端 OCR accuracy。
+
+重点是：
+
+> OCR + User Correction 可以完成任务。
+
+---
+
+# 8. Feature 3 — AI Expression Analysis
+
+AI 的目标不是“把所有单词都解释一遍”。
+
+AI 必须识别：
+
+> **这句话里最值得英语学习者积累的口语表达是什么。**
+
+优先提取：
+
+* idioms；
+* collocations；
+* phrasal verbs；
+* conversational phrases；
+* spoken sentence patterns；
+* natural native-like expressions。
+
+普通基础词汇默认不提取。
+
+例如：
+
+```text
+I wouldn't read too much into it.
+```
+
+应该识别：
+
+```text
+read too much into something
+```
+
+而不是：
+
+```text
+read
+much
+into
+```
+
+---
+
+# 9. AI 输出 Schema
+
+AI 必须使用固定 structured JSON。
+
+禁止前端解析自然语言。
+
+建议 Schema：
+
+```json
+{
+  "sentence": "I wouldn't read too much into it.",
+  "sentence_translation_zh": "我不会对此过度解读。",
+  "has_useful_expression": true,
+  "expressions": [
+    {
+      "expression": "read too much into something",
+      "ipa": "",
+      "meaning_zh": "对某件事情过度解读",
+      "meaning_in_context_zh": "这里表示不要赋予某件事情过多意义。",
+      "usage_zh": "当别人对一句话、一个行为或某件小事进行了过度分析时使用。",
+      "naturalness": "very_natural",
+      "expression_type": "idiomatic_phrase",
+      "semantic_group": "OVERINTERPRET",
+      "scene_tags": [
+        "Daily Conversation",
+        "Relationships",
+        "Opinions"
+      ],
+      "alternatives": [
+        {
+          "expression": "Don't overthink it.",
+          "meaning_zh": "别想太多。"
+        },
+        {
+          "expression": "Don't make too much of it.",
+          "meaning_zh": "别把这件事看得太重。"
+        }
+      ]
+    }
+  ]
+}
+```
+
+允许：
+
+```json
+{
+  "has_useful_expression": false
+}
+```
+
+表示 AI 判断：
+
+> 该句没有特别值得积累的口语表达。
+
+此时用户仍然可以：
+
+**Save Anyway**
+
+---
+
+# 10. Expression Record 数据结构
+
+数据库中的一条记录至少包含：
+
+```ts
+interface ExpressionRecord {
+  id: string;
+
+  originalSentence: string;
+  sentenceTranslationZh: string;
+
+  expression: string;
+  ipa?: string;
+
+  meaningZh: string;
+  meaningInContextZh: string;
+  usageZh: string;
+
+  expressionType:
+    | "idiom"
+    | "collocation"
+    | "phrasal_verb"
+    | "sentence_pattern"
+    | "conversational_phrase"
+    | "word"
+    | "other";
+
+  naturalness:
+    | "very_natural"
+    | "natural"
+    | "neutral";
+
+  semanticGroup: string;
+
+  sceneTags: string[];
+
+  alternatives: {
+    expression: string;
+    meaningZh?: string;
+  }[];
+
+  sourceType:
+    | "youtube"
+    | "web"
+    | "image"
+    | "other";
+
+  sourceTitle?: string;
+  sourceUrl?: string;
+  sourceTimestamp?: string;
+
+  capturedAt: string;
+  updatedAt: string;
+
+  userEdited: boolean;
+}
+```
+
+---
+
+# 11. Semantic Group 与 Scene Tag 必须分离
+
+这是产品的重要设计原则。
+
+## Semantic Group
+
+回答：
+
+> “它在表达什么意思？”
+
+例如：
+
+```text
+VERY_BUSY
+```
+
+包含：
+
+* I'm swamped.
+* I'm slammed.
+* I've got a lot on my plate.
+* Things are hectic.
+
+---
+
+## Scene Tag
+
+回答：
+
+> “它在什么生活场景可能出现？”
+
+例如：
+
+```text
+Work
+Study
+Relationships
+Travel
+Shopping
+Food
+Socializing
+Making Decisions
+Emotions
+Opinions
+Daily Conversation
+```
+
+例如：
+
+```text
+I'm swamped.
+```
+
+可以属于：
+
+Semantic Group：
+
+```text
+VERY_BUSY
+```
+
+Scene：
+
+```text
+Work
+Study
+Daily Conversation
+```
+
+两套体系禁止混为一个 Tag 系统。
+
+---
+
+# 12. Feature 4 — Save
+
+AI 分析完成后显示 Preview Card。
+
+示例：
+
+```text
+I wouldn't read too much into it.
+
+READ TOO MUCH INTO SOMETHING
+
+对……过度解读
+
+在别人把一件小事分析得过多时使用。
+
+Daily Conversation
+Relationships
+Opinions
+
+Similar
+
+Don't overthink it.
+Don't make too much of it.
+
+[Edit]
+
+[Save]
+```
+
+用户必须确认后保存。
+
+原则：
+
+> AI Suggests, User Decides.
+
+所有 AI 字段允许用户编辑。
+
+---
+
+# 13. Feature 5 — Library
+
+Library 是 V1 的核心页面之一。
+
+需要支持：
+
+### All
+
+全部表达。
+
+### Date
+
+* Today
+* This Week
+* Custom Date
+
+### Scene
+
+按照生活场景筛选。
+
+### Semantic Meaning
+
+按照 Semantic Group 聚合。
+
+### Search
+
+至少支持搜索：
+
+* original sentence；
+* expression；
+* Chinese meaning。
+
+---
+
+# 14. Library 基础 UI
+
+单条 Card：
+
+```text
+I'm on the fence about moving abroad.
+
+ON THE FENCE
+
+犹豫不决 / 还没有拿定主意
+
+Decision · Daily Conversation
+
+YouTube
+Sep 04
+
+────────────
+
+I'm swamped this week.
+
+SWAMPED
+
+忙得不可开交
+
+Work · Study
+
+YouTube
+Sep 04
+```
+
+点击 Card：
+
+打开详细信息。
+
+---
+
+# 15. Feature 6 — HTML Export
+
+用户可以导出自己的表达。
+
+V1 格式：
+
+### HTML
+
+必须是 standalone HTML。
+
+要求：
+
+* HTML 中包含 CSS；
+* 不依赖线上服务器；
+* 用户双击即可打开；
+* 中文和英文排版正常；
+* 可以打印；
+* 可以另存为 PDF。
+
+---
+
+# 16. Export Filter
+
+支持：
+
+```text
+Date
+
+○ All
+○ Today
+○ This Week
+○ Custom
+
+Scene
+
+☑ Daily Conversation
+☑ Work
+☑ Relationships
+☑ Travel
+
+[Export HTML]
+```
+
+---
+
+# 17. HTML 排版原则
+
+禁止导出成 Excel 风格的大表格。
+
+采用 Expression Notebook 风格。
+
+示例：
+
+```text
+MY SPOKEN ENGLISH COLLECTION
+
+September 04, 2026
+
+
+01
+
+I wouldn't read too much into it.
+
+READ TOO MUCH INTO SOMETHING
+
+对某件事情过度解读
+
+Used when someone gives too much
+meaning to a small action or event.
+
+RELATIONSHIPS · OPINIONS
+
+Similar expressions
+
+Don't overthink it.
+Don't make too much of it.
+
+YouTube · 12:43
+
+
+────────────────────────
+
+
+02
+
+I'm on the fence about it.
+
+...
+```
+
+整体视觉方向：
+
+* clean；
+* editorial；
+* notebook；
+* readable；
+* 不做儿童教育风；
+* 不使用过度鲜艳颜色。
+
+---
+
+# 18. Chrome Extension 页面结构
+
+推荐使用：
+
+**Chrome Extension Manifest V3 + Side Panel**
+
+## Side Panel
+
+主要包含：
+
+### Home / Today
+
+最近采集。
+
+### Library
+
+全部表达。
+
+### Scenes
+
+场景分类。
+
+### Meanings
+
+Semantic Groups。
+
+### Export
+
+导出。
+
+### Settings
+
+API Key 等基础设置。
+
+---
+
+# 19. V1 技术架构
+
+推荐：
+
+```text
+Chrome Extension
+Manifest V3
+
+React
+TypeScript
+Tailwind CSS
+
+Chrome Side Panel API
+
+Content Script
+      ↓
+Selection Overlay
+
+chrome.tabs.captureVisibleTab
+      ↓
+Canvas Crop
+      ↓
+Tesseract.js
+      ↓
+OCR Text
+      ↓
+User Confirmation
+      ↓
+LLM API
+      ↓
+Structured JSON
+      ↓
+Expression Preview
+      ↓
+IndexedDB
+      ↓
+Library
+      ↓
+HTML Generator
+```
+
+---
+
+# 20. Storage
+
+V1 不开发账号和云数据库。
+
+### chrome.storage.local
+
+用于：
+
+* settings；
+* API configuration；
+* lightweight preferences。
+
+### IndexedDB
+
+用于：
+
+* Expression Records；
+* collection；
+* tags；
+* local data。
+
+V1 默认不长期保存截图。
+
+流程：
+
+```text
+Screenshot
+↓
+OCR
+↓
+Text generated
+↓
+Screenshot discarded
+```
+
+避免：
+
+* 存储膨胀；
+* 隐私问题；
+* 数据复杂度增加。
+
+---
+
+# 21. V1 明确不做
+
+为了保证项目可以快速结束，以下功能不属于 V1：
+
+* 用户注册；
+* 登录系统；
+* 云同步；
+* 手机 App；
+* Safari；
+* Firefox；
+* 自动读取完整 YouTube Transcript；
+* 自动监听字幕；
+* 自动分析整段视频；
+* 视频总结；
+* 全文翻译；
+* Anki 同步；
+* Quiz；
+* Flashcard；
+* Spaced Repetition；
+* AI Speaking Practice；
+* Pronunciation Scoring；
+* 学习排行榜；
+* 社交；
+* Community；
+* 每日学习计划；
+* Gamification；
+* Vector Database；
+* Embedding Search；
+* 自动大规模聚类；
+* Recommendation System。
+
+任何新功能必须首先判断：
+
+> 是否是完成 Capture → Analyze → Save → Organize → Export 闭环的必要条件？
+
+如果不是：
+
+**不进入 V1。**
+
+---
+
+# 22. V1 成功标准
+
+项目成功不是：
+
+> 功能很多。
+
+而是：
+
+> 用户在真实英语网页中看到一句值得学习的表达后，可以在极低操作成本下将其转化成一条结构化语言记录。
+
+核心体验目标：
+
+```text
+看到表达
+↓
+Capture
+↓
+AI 整理
+↓
+Save
+```
+
+理想情况下：
+
+**10–20 秒完成。**
+
+---
+
+# 23. MVP 验证指标
+
+## H1 — 整理效率
+
+指标：
+
+```text
+Average time to save one expression
+```
+
+目标：
+
+明显低于人工：
+
+截图 → 查词 → 记录。
+
+---
+
+## H2 — Expression Quality
+
+用户是否认可 AI 提取的表达。
+
+指标：
+
+```text
+AI Expression Acceptance Rate
+```
+
+---
+
+## H3 — Tag Quality
+
+用户是否修改 AI Scene Tag。
+
+指标：
+
+```text
+Scene Tag Acceptance Rate
+```
+
+---
+
+## H4 — AI Editing
+
+指标：
+
+```text
+AI Result Edit Rate
+```
+
+用于判断：
+
+AI 生成内容是否真正减少整理工作。
+
+---
+
+## H5 — Save Funnel
+
+```text
+Capture Started
+↓
+OCR Successful
+↓
+Analysis Successful
+↓
+Save Completed
+```
+
+---
+
+# 24. North Star Metric
+
+V1 推荐：
+
+**Successfully Saved Useful Expressions**
+
+辅助指标：
+
+* Capture Success Rate；
+* OCR Correction Rate；
+* AI Expression Acceptance Rate；
+* Average Capture-to-Save Time；
+* Expressions per Active User；
+* Export Usage。
+
+---
+
+# 25. Vibe Coding 开发原则
+
+Codex 必须遵循以下原则：
+
+### 1. 一次只完成一个 Milestone
+
+禁止同时开发多个大功能。
+
+### 2. 每个 Milestone 必须先跑通核心流程
+
+再做样式。
+
+### 3. 不允许主动增加 Scope
+
+发现可能有价值的新功能：
+
+记录到：
+
+```text
+FUTURE_IDEAS.md
+```
+
+不直接开发。
+
+### 4. 数据 Schema 一旦确定不得随意改字段名称
+
+如果确实需要修改：
+
+必须同步更新：
+
+* types；
+* database；
+* AI schema；
+* UI；
+* export。
+
+### 5. AI 输出只允许 Structured JSON
+
+不允许依赖自然语言解析。
+
+### 6. 每完成 Milestone 必须：
+
+* 自测；
+* 汇报完成内容；
+* 汇报遗留问题；
+* 明确当前项目是否满足验收条件。
+
+---
+
+# 26. Codex Milestone 1
+
+## Goal
+
+实现：
+
+**区域截图 → OCR → Side Panel 显示文字**
+
+暂时不接 AI。
+
+### Required Flow
+
+```text
+User clicks Capture
+↓
+Page enters selection mode
+↓
+User drags rectangle
+↓
+Selected region captured
+↓
+Image cropped correctly
+↓
+OCR runs
+↓
+Detected English displayed
+↓
+User can edit text
+```
+
+### Acceptance Criteria
+
+1. 普通网页可以启动截图；
+2. 鼠标可以框选区域；
+3. ESC 可以取消；
+4. 截图区域与用户选择区域一致；
+5. Windows 页面缩放 / devicePixelRatio 不导致明显偏移；
+6. OCR 能识别清晰英文字幕；
+7. OCR 结果允许修改；
+8. 页面刷新后插件不会进入异常状态；
+9. 不开发数据库；
+10. 不开发 AI；
+11. 不开发 Export。
+
+完成后停止。
+
+---
+
+# 27. Codex Milestone 2
+
+## Goal
+
+实现：
+
+**OCR Text → AI Analysis → Preview Card**
+
+### Required Flow
+
+```text
+Detected Text
+↓
+Analyze
+↓
+LLM
+↓
+Structured JSON
+↓
+Expression Preview
+```
+
+### Requirements
+
+AI 必须：
+
+* 判断是否存在值得积累的表达；
+* 找出关键 expression；
+* 中文解释；
+* contextual meaning；
+* usage；
+* Scene Tags；
+* Semantic Group；
+* alternative expressions。
+
+必须严格匹配 Schema。
+
+如果：
+
+```text
+has_useful_expression = false
+```
+
+显示：
+
+> No particularly useful spoken expression detected.
+
+同时保留：
+
+**Save Anyway**
+
+完成后停止。
+
+---
+
+# 28. Codex Milestone 3
+
+## Goal
+
+实现：
+
+**Save → IndexedDB → Persistence**
+
+验收：
+
+1. Expression 可以保存；
+2. 刷新浏览器后数据仍存在；
+3. 用户可以删除；
+4. 用户可以编辑；
+5. createdAt / updatedAt 正常；
+6. 不做云同步。
+
+完成后停止。
+
+---
+
+# 29. Codex Milestone 4
+
+## Goal
+
+实现 Library。
+
+支持：
+
+* All；
+* Today；
+* This Week；
+* Scene；
+* Semantic Group；
+* Search。
+
+验收：
+
+用户保存至少 20 条测试数据后：
+
+可以快速：
+
+> 找到某一天收藏的表达；
+
+或：
+
+> 找到 Work 场景表达；
+
+或：
+
+> 找到所有表达 VERY_BUSY 的表达。
+
+完成后停止。
+
+---
+
+# 30. Codex Milestone 5
+
+## Goal
+
+实现 standalone HTML Export。
+
+验收：
+
+用户选择：
+
+```text
+Date
+Scene
+```
+
+点击 Export。
+
+生成：
+
+```text
+spoken-english-collection.html
+```
+
+文件：
+
+* 本地可打开；
+* 样式正常；
+* 不依赖服务器；
+* 表达信息完整；
+* 可打印；
+* 排版整洁。
+
+完成后：
+
+**V1 Development Complete**
+
+禁止继续新增功能。
+
+---
+
+# 31. 给 Codex 的项目总约束
+
+在整个开发周期中，请始终遵守：
+
+> 本项目的目标不是构建一个完整的英语学习平台，而是在尽可能短的开发周期内完成一个稳定、可演示、流程闭环的 AI Spoken English Collector V1。
+
+核心闭环：
+
+```text
+Capture
+→ OCR
+→ AI Analyze
+→ User Confirm
+→ Save
+→ Organize
+→ Export
+```
+
+任何不直接服务该闭环的功能都不属于当前开发范围。
+
+如果发现新的产品机会：
+
+记录，而不是实现。
+
+优先级始终是：
+
+```text
+Core Flow Stability
+>
+Data Correctness
+>
+AI Output Reliability
+>
+Usability
+>
+Visual Polish
+>
+Additional Features
+```
+
+避免：
+
+* 为未来过度设计；
+* 提前抽象；
+* 大规模重构；
+* 自作主张扩大 Scope；
+* 在核心流程尚未稳定时增加功能。
+
+当 V1 的五个 Milestone 全部通过验收后：
+
+项目进入完成状态。
